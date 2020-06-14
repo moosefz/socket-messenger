@@ -18,7 +18,7 @@ const botName = "SocketBot";
 app.use(express.static(path.join(__dirname, "public")));
 
 // port or environment var port
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 // Run socket io when client connects - handles all bi-directional communication
 io.on("connection", socket => {
@@ -56,12 +56,6 @@ io.on("connection", socket => {
         if(user) {
             io.to(user.room).emit("message", formatMessage(botName, user.username + " has left the chat"));
         };
-
-        // send users and info
-        io.to(user.room).emit("roomUsers", { 
-            room: user.room,
-            users: getRoomUsers(user.room)
-        });
     });
 })
 
